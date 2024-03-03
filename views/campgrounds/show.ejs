@@ -1,0 +1,293 @@
+<% layout('layouts/boilerplate') %>
+  <link rel="stylesheet" href="/stylesheets/stars.css">
+
+  <link rel="stylesheet" href="/stylesheets/calender.css">
+  <link rel="stylesheet" href="/stylesheets/test.css">
+  <div class="modal-body hidden">
+
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div id='map'></div>
+      <div id="campgroundCarousel" class="carousel slide">
+        <div class="carousel-inner">
+          <% campground.images.forEach((img,i)=>{ %>
+            <!-- class="card-img-top" alt="..."> -->
+
+            <div class="carousel-item <%=(i===0)?'active':''%>">
+              <img crossorigin="anonymous" src="<%=img.url %>" class="d-block w-100" alt="">
+            </div>
+            <% }) %>
+
+        </div>
+        <% if(campground.images.length>1){ %>
+          <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
+      </div>
+      <div class="card mb-3">
+
+
+        <div class="card-body">
+          <h5 class="card-title">
+            <%=campground.title %>
+          </h5>
+
+          <p class="card-text">
+            <%=campground.description %>
+          </p>
+          
+        </div>
+        <div class="card-body" style="display: flex;
+        flex-direction: row;">
+          <%for (amen of campground.amenities){ %>
+            <p class="card-text">
+
+              <span class="badge bg-primary" style="margin-right: 3px;">
+                <%=amen %></a>
+              </span>
+            </p>
+            <% } %>
+        </div>
+        <!-- this badge works -->
+        <!-- <span class="badge bg-primary">Primary</span> -->
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-secondary">
+            <%=campground.location %>
+          </li>
+          <%if(campground.author){%>
+            <li class="list-group-item">Submitted by <%=campground.author.username %>
+            </li>
+            <% } %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>$<%=campground.price %>/night</div>
+              <div><%=rating %>⭐</div>
+              </li>
+
+        </ul>
+        <% if(currentUser) { %>
+          <% if((campground.author && !(campground.author.equals(currentUser)) || !campground.author)) { %>
+            <div class="card-body">
+              <a class="card-link btn btn-info" href="/campgrounds/<%=campground._id %>/reservations/new">Book
+                <%=campground.title %></a>
+            </div>
+            <% } %>
+              <% } %>
+
+                <% if(currentUser&&campground.author&&campground.author.equals(currentUser._id)) {%>
+                  <div class="card-body">
+                    <a class="card-link btn btn-info" href="/campgrounds/<%=campground._id %>/edit">Edit</a>
+                    <form class="d-inline" action="/campgrounds/<%=campground._id %>?_method=DELETE" method="POST">
+                      <button class="btn btn-danger">Delete</button>
+                    </form>
+                  </div>
+
+                  <% } %>
+                    <% if(!currentUser) {%>
+                      <p>Log in to review or book campground</p>
+                      <% } %>
+
+                        <div class="card-footer text-muted">
+                          Last updated
+                          <% if(campground.updatedAt){ %>
+                            <%=Math.round((new
+                              Date(Date.now()).getTime()-campground.updatedAt.getTime())/(1000*3600*24))%>
+                              <% } else{%>
+                                2
+                                <% } %>
+                                  days ago
+                        </div>
+      </div>
+
+    </div>
+
+
+
+    <div class="col-6">
+          <!-- calender test -->
+
+<div class="date-picker-wrapper" style="z-index: 200;">
+  <button class="btn btn-info btn-lg btn-block selected-date mb-3">Check Dates</button>
+  <div class="dates-container" style="z-index: 200; width: auto;">
+<form action="/campgrounds/<%=campground._id%>/reservations/new" method="POST">
+  <div class="mobile">
+  
+    <span class="notch"></span>
+  
+    <div class="mobile__screen">
+  
+      <div class="calendar">
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 4px; padding-top: 0; margin-top: 0;">
+          <a id="cleardates" role="link" aria-disabled="true" class="link-info" style="cursor: pointer;">clear dates</a>
+          <button type="submit" class="btn btn-primary  btn-sm" style="padding: 1; margin-bottom: 2px;">reserve</button>
+        </div>
+        <div class="inputs">
+          <div>
+            
+            <input id="start" class="warning" type="text" placeholder="Start Date" name="start" onkeydown="return false;" autocomplete="off">   
+                   <!-- onkeydown="return false;" -->
+          </div>
+          <div>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <div>
+            <input id="end" type="text" placeholder="End Date" name="end" onkeydown="return false;" autocomplete="off">
+          </div>
+        </div>
+  
+        <div class="cal__container">
+  
+        </div>
+  
+      </div>
+  
+      
+    </div>
+  
+  </div>
+
+  </form>
+
+  </div>
+</div>
+<div style="height: 60px;"></div>
+<div>
+      <% if(currentUser) {%>
+        <h2>Leave a Review</h2>
+        <form action="/campgrounds/<%=campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+          <fieldset class="starability-basic">
+            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+              aria-label="No rating." />
+            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+
+          <!-- <div class="mb-3">
+        <label class="form-label" for="rating">Rating</label>
+        <input
+          class="form-range"
+          type="range"
+          min="1"
+          max="5"
+          name="review[rating]"
+          id="rating"
+        />
+      </div> -->
+    </div>
+          <div class="mb-3">
+            <label class="form-label" for="body">Review Text</label>
+            <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <button class="btn btn-success">Submit</button>
+        </form>
+        <% } %>
+          <% for (let review of reviews) {%>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= (review.author)?review.author.username : 'deleted User' %>
+                </h5>
+                <p class="starability-result" data-rating="<%=review.rating%>">
+                  Rated: <%= review.rating %> stars
+                </p>
+                <h6 class="card-subtitle mb-2 text-muted">By <%=(review.author)?review.author.username:'Deleted user' %>
+                </h6>
+                <p class="card-text">Review: <%=review.body %>
+                </p>
+                <% if(currentUser&&review.author&&review.author.equals(currentUser._id)) {%>
+                  <form action="/campgrounds/<%=campground._id %>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                  </form>
+                  <% } %>
+              </div>
+            </div>
+            <% } %>
+            <div>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <%if(prevPage) {%>
+                  <li class="page-item"><a class="page-link" href="/campgrounds/<%=campground._id %>?page=<%=prevPage%>&limit=4">Prev</a></li>
+                  <% } %>
+
+                  <%if(nextPage) {%>
+                  <li class="page-item"><a class="page-link" href="/campgrounds/<%=campground._id %>?page=<%=nextPage%>&limit=4">Next</a></li>
+                  <% } %>
+                </ul>
+              </nav>
+            </div>
+    </div>
+
+
+<!-- end of calende test -->
+  </div>
+
+
+
+  <script>
+  const mapToken = '<%-process.env.MAPBOX_TOKEN%>'
+    const campground = <%-JSON.stringify(campground)%>
+
+  </script>
+
+  <script src="/javascripts/showPageMap.js"></script>
+<script>
+const date_picker_ele = document.querySelector(".date-picker-wrapper");
+const selected_date_ele = document.querySelector(" .selected-date");
+const dates_ele = document.querySelector(".dates-container");
+date_picker_ele.addEventListener("click", toggleDatePicker);
+function toggleDatePicker(e) {
+  if (!checkClassExist(e.composedPath(), "dates-container")) {
+    dates_ele.classList.toggle("active");
+
+  }
+}
+
+function checkClassExist(path, selector) {
+  for (let i = 0; i < path.length; i++) {
+    if (path[i].classList && path[i].classList.contains(selector)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+document.addEventListener('click', function(e) {
+  if (!checkClassExist(e.composedPath(), "date-picker-wrapper")) {
+    dates_ele.classList.remove("active");
+  }
+});
+
+</script> 
+<script src="/javascripts/getunavaildays.js"></script>
+<script src="/javascripts/test.js">
+
+</script> 
+<!-- <script>
+  const toggleDisplay = (target, trigger) => {
+  if(!target || !trigger) return 
+  let defaultDisplay =
+    window.getComputedStyle(target).getPropertyValue('display')
+  trigger.addEventListener('click', e => {
+    target.style.display = 
+      (target.style.display == 'none') ?
+      defaultDisplay:
+      'none'
+  })
+}
+</script> -->

@@ -1,0 +1,66 @@
+<% layout('layouts/boilerplate') %>
+<form action="/cart" >
+
+
+  <% if (currentUser && reservation) { %>
+
+      <label class="form-label" for="resID">Reservation ID</label>
+      <input class="form-control" type="text" id="resID" name="storeItem[name]"
+        value="<%= reservation._id %>" readonly >
+
+      
+      <label class="form-label" for="campgroundtitle">Campground title</label>
+      <input class="form-control" type="text" id="campgroundtitle" name="campgroundtitle"
+        value="<%= reservation.campground.title %>" readonly>
+
+        <label class="form-label" for="startDate">Start Date</label>
+        <input class="form-control" type="date" id="startDate" name="startDate"
+          value="<%= reservation.startDate.toISOString().split('T')[0] %>" readonly>
+
+          <label class="form-label" for="endDate">End Date</label>
+          <input class="form-control" type="date" id="endDate" name="endDate"
+            value="<%= reservation.endDate.toISOString().split('T')[0] %>" readonly>
+
+            <label class="form-label" for="price">Price</label>
+            
+            <input class="form-control" type="number" id="price" name="storeItem[price]"
+  value="<%= reservation.totalPrice %>" readonly>
+
+              <label class="form-label" for="status">Status</label>
+              <input class="form-control" type="text" id="status" name="status"
+                value="<%= reservation.status %>" readonly>
+
+
+  <% } %>
+
+    <% if(reservation.status==='pending'){ %>
+  <button type="submit" class="btn btn-secondary">Go to cart</button>
+  <% } %>
+</form>
+
+<% if(reservation.createdAt){ %>
+  Created
+  <%=Math.round((new Date(Date.now()).getTime()-reservation.createdAt.getTime())/(1000*3600*24))%>
+ days ago
+  <% } %>
+
+<% if(currentUser&&reservation&&reservation.status==='confirmed') {%>
+  <form class="d-inline" action="/campgrounds/<%=reservation.campground._id %>/reservations/<%=reservation._id %>?_method=DELETE" method="POST">
+    <!-- <button class="btn btn-danger">Delete</button> -->
+    <div id="addButton"></div>
+  </form>
+<a href="/user">Go to user page</a>
+  <% } %>
+<!-- go to make more reservations -->
+<!-- <a href="/campgrounds" class="btn btn-lg btn-secondary font-weight-bold border-white bg-white">View
+  Campgrounds</a> -->
+
+<script>
+  let resStartDate= <%- JSON.stringify(reservation.startDate.getTime())%>
+if( resStartDate > Date.now())
+{
+  console.log('can delete')
+  document.getElementById('addButton').innerHTML="<button class='btn btn-danger'>Delete</button>"
+  
+}
+</script>

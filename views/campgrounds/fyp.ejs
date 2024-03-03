@@ -1,0 +1,116 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/heart.css">
+
+<div class="card-body mb-3">
+  <h1 class="card-title mb-1">For You Page</h1>
+  <p class="card-text">Based on our algorithm, here are some of our campsites you might enjoy: </p>
+
+</div>
+
+
+<% if(currentUser) { %>
+  <% if(campsBasedOnResHis&&campsBasedOnResHis.length>0) { %>
+    <div class="container">
+      <div class="row">
+    <h2>Recommendations based on reservation history</h2> 
+    <% for(let c of campsBasedOnResHis) { %>
+      <div class="col-md-4 col-sm-6 pb-4">
+        <div class="card h-100">
+          <% if (c.images.length) { %>
+
+            <a href="/campgrounds/<%=c._id %>?page=1&limit=4"><img class="card-img-top userimg" src="<%= c.images[0].url %>" alt="Card image cap" crossorigin="anonymous" style="height: 200px; width: 100%;"></a>
+          <% } else { %>
+            <a href="/campgrounds/<%=c._id %>?page=1&limit=4"><img class="card-img-top userimg" src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png" alt="Card image cap" crossorigin="anonymous" style="height: 200px; width: 100%;"></a>
+          <% } %>
+            <div class="card-body">
+                <h4 class="card-title"><%=c.title %></h4>
+                <div class="wrapheartdiv" style="display: flex; flex-direction: row;">
+                <p class="card-text"><%=c.location %></p>
+                <button type="button"  class="favorite-button" style="position: absolute; top:3px; right:20px" id="<%=c._id %>">
+                  <i crossorigin="anonymous" class="fas fa-heart favorite__icon favorite--enable"></i>
+                    <i crossorigin="anonymous" class="far fa-heart favorite__icon favorite--not"></i>
+                
+            </button>
+             </div> 
+
+                <div style="display: flex; flex-direction: row;">
+                <%for (amen of c.amenities){ %>
+                  <p class="card-text">
+                    <span class="badge bg-primary" style="margin-right: 3px;">
+                      <%=amen %></a>
+                    </span>
+                  </p>
+                  <% } %>
+                </div>
+                <p class="card-text"><small class="text-muted">Last updated
+                  <% if (c.updatedAt) { %>
+                    <%= Math.round((new Date(Date.now()).getTime() - c.updatedAt.getTime()) / (1000 * 3600 * 24)) %>
+                  <% } else { %>
+                    2
+                  <% } %> days ago</small></p>
+            </div>
+        </div>
+    </div>
+    <% } %>
+      </div>
+      </div>
+
+  <% } %>
+  <% } %>
+
+  <% if(!currentUser||currentUser&&campsBasedOnFavOrRanking) { %>
+    <% if(campsBasedOnFavOrRanking){ %>
+      <div class="container">
+        <div class="row">
+    <h2>Recommendations based on browsing history,  favorites, & ranking</h2>
+    <% for(let c of campsBasedOnFavOrRanking) { %>
+      <div class="col-md-4 col-sm-6 pb-4">
+        <div class="card h-100">
+          <% if (c.images.length) { %>
+
+            <a href="/campgrounds/<%=c._id %>?page=1&limit=4"><img class="card-img-top userimg" src="<%= c.images[0].url %>" alt="Card image cap" crossorigin="anonymous" style="height: 200px; width: 100%;"></a>
+          <% } else { %>
+            <a href="/campgrounds/<%=c._id %>?page=1&limit=4"><img class="card-img-top userimg" src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png" alt="Card image cap" crossorigin="anonymous" style="height: 200px; width: 100%;"></a>
+          <% } %>
+            <div class="card-body">
+                <h4 class="card-title"><%=c.title %></h4>
+                <div class="wrapheartdiv" style="display: flex; flex-direction: row;">
+                <p class="card-text"><%=c.location %></p>
+                <button type="button"  class="favorite-button" style="position: absolute; top:3px; right:20px" id="<%=c._id %>">
+                  <i crossorigin="anonymous" class="fas fa-heart favorite__icon favorite--enable"></i>
+                    <i crossorigin="anonymous" class="far fa-heart favorite__icon favorite--not"></i>
+                
+            </button>
+             </div> 
+
+                <div style="display: flex; flex-direction: row;">
+                <%for (amen of c.amenities){ %>
+                  <p class="card-text">
+                    <span class="badge bg-primary" style="margin-right: 3px;">
+                      <%=amen %></a>
+                    </span>
+                  </p>
+                  <% } %>
+                </div>
+                <p class="card-text"><small class="text-muted">Last updated
+                  <% if (c.updatedAt) { %>
+                    <%= Math.round((new Date(Date.now()).getTime() - c.updatedAt.getTime()) / (1000 * 3600 * 24)) %>
+                  <% } else { %>
+                    2
+                  <% } %> days ago</small></p>
+            </div>
+        </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+  <% } %>
+  <% } %>
+
+
+
+  
+
+
+  <script src="/javascripts/heart.js"></script>
+  <script crossorigin="anonymous" src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>

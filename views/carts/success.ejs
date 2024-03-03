@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate') %>
+
+
+
+  <title>Thanks for your order!</title>
+
+
+  <% if (currentUser) { %>
+    
+  <section>
+    <p>Dear 
+      <%=session.customer_details.email%>,
+      we appreciate your business! If you have any questions, please email
+      <a href="mailto:ychee.yong@csu.fullerton.edu">ychee.yong@csu.fullerton.edu</a>.
+    </p>
+    <p>Order details:</p>
+    <% lineItems.data.forEach(lineItem => { %>
+    <p>✅ Reservation: <%=lineItem.description %> Status: Confirmed</p>
+    <% }) %>
+
+    <p>Go to your <span><a href="/user">User page</a></span> for more info.</p>
+    <a href="/campgrounds?page=1&limit=4"">Return to Campgrounds</a>
+  </section>
+<% } %>

@@ -1,0 +1,172 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/heart.css">
+<div class="col-6">
+  <% if(currentUser) {%>
+<h5>Welcome, <span style="color: #4a70f8;"><%=user.username %></span></h5> 
+        <% } %>
+</div>
+
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <h2>Pending Reservations</h2>
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+
+
+        <% if(currentUser) {%>
+
+          <% if(pendingReservations&&pendingReservations.length>0) {%>
+          <% for(reservation of pendingReservations){ %>
+          <div class="card mb-2" >
+            <div class="card-header">
+              <a href="/campgrounds/<%=reservation.campground._id %>/reservations/<%=reservation._id %>"><h5><%=reservation.checkoutName%></h5></a>
+            </div>
+            <div class="card-body">
+              <h6 class="card-title">Reservation ID: <%= reservation._id %></h6>
+              <p class="card-text">Total: $ <%=reservation.totalPrice %></p>
+              <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            </div>
+          </div>
+          <% } %>
+          <a href="/cart" class="btn btn-primary">Go to cart</a>
+          
+          <% } else {%>
+none at the moment
+            <% } %>
+          <% } %>
+
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        <h2>Confirmed Reservations</h2>
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <% if(currentUser) {%>
+        <% if(confirmedReservations&&confirmedReservations.length>0) {%>
+          <% for(reservation of confirmedReservations){ %>
+          <div class="card mb-2" >
+            <div class="card-header">
+              <a href="/campgrounds/<%=reservation.campground._id %>/reservations/<%=reservation._id %>"><h5><%=reservation.checkoutName%></h5></a>
+            </div>
+            <div class="card-body">
+              <h6 class="card-title">Reservation ID: <%= reservation._id %></h6>
+              <p class="card-text">Total: $ <%=reservation.totalPrice %></p>
+              <a href="/campgrounds/<%=reservation.campground._id %>?page=1&limit=4" class="btn btn-primary">See Campground</a>
+            </div>
+          </div>
+          <% } %>
+          <% }else{ %>
+            none at the moment
+            <% } %>
+          <% } %>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        <h2>Favorites</h2>
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+
+        <% if(currentUser) {%>
+          <%if(favCampgrounds&&favCampgrounds.length>0){%>
+            <% for(favCampground of favCampgrounds){ %>
+              
+              <div class="card mb-3" style="display: flex; flex-direction: row;">
+                <div>
+<% if(favCampground.images.length) {%>
+  <a href="/campgrounds/<%=favCampground._id %>?page=1&limit=4"><img class="card-img-top thumbnail userimg" src="<%=favCampground.images[0].url %>" alt="" style="object-fit:cover;
+                width:175px;
+                height:175px;
+             " crossorigin="anonymous"></a>
+                <% }else{ %>
+                  <a href="/campgrounds/<%=favCampground._id %>?page=1&limit=4"><img class="card-img-top thumbnail userimg" src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png" alt="" style="object-fit:cover;
+                  width:175px;
+                  height:175px;
+               " crossorigin="anonymous"></a>
+                  <% } %>
+                </div>
+                <div class="card-body">
+
+                    
+                  <h5 class="card-title" style="word-break: break-all;
+                  white-space: normal; width: fit-content;" ><%=favCampground.title %></h5>
+
+                
+
+              
+                
+                <div class="wrapheartdiv" style="display: flex; flex-direction: row;">
+                  <p class="card-text">
+                    <small class="text-muted"><%=favCampground.location%></small>  
+                    </p>
+                    <button type="button"  class="favorite-button" style="position: absolute; top:3px; right:20px" id="<%=favCampground._id %>">
+                      <i crossorigin="anonymous" class="fas fa-heart favorite__icon favorite--enable"></i>
+                        <i crossorigin="anonymous" class="far fa-heart favorite__icon favorite--not"></i>
+                    
+                </button>
+              </div>
+                    <!-- amenities -->
+                    <div style="display: flex; flex-direction: row;">
+                    <%for (amen of favCampground.amenities){ %>
+                      <p class="card-text">
+                        <span class="badge bg-primary" style="margin-right: 3px;">
+                          <%=amen %></a>
+                        </span>
+                      </p>
+                      <% } %>
+                    </div>
+
+                  <p class="card-text"><small class="text-muted">Last updated
+                    <% if (favCampground.updatedAt) { %>
+                      <%= Math.round((new Date(Date.now()).getTime() - favCampground.updatedAt.getTime()) / (1000 * 3600 * 24)) %>
+                    <% } else { %>
+                      2
+                    <% } %> days ago</small></p>
+                </div>
+              </div>
+
+              
+
+          <% } %>
+          <% } %>
+
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+<p class="card-text">
+Note: Pending reservations that have not been paid in 3 days will be cancelled automatically.  Cancelled reservations will not be shown in user page.
+</p>
+</div>
+<div class="mt-2 mb-3">
+<h6>Danger Zone:</h6>
+<!-- delete acc -->
+<div class="card" >
+  <div class="card-body" style="position: relative; padding-bottom: 50px;">
+    <form class="d-inline" action="/user?_method=DELETE" method="POST">
+    <h2>Delete my account</h2>
+    Your reviews will remain with username removed.  Please refer to receipts of each cart session sent to your email for your past reservations.
+    <button class="btn btn-danger" style="position: absolute; bottom: 10px; right: 10px;">Delete</button>
+  </form>
+  </div>
+</div>
+
+</div>
+<script crossorigin="anonymous" src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+<script src="/javascripts/heart.js"></script>
+

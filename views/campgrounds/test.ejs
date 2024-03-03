@@ -1,0 +1,86 @@
+<!-- <% layout('layouts/boilerplate') %> -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+
+<link rel="stylesheet" href="/stylesheets/test.css">
+<!-- <input type="text" placeholder="start date" name="foo"> -->
+
+<!-- <div id="foo">
+  <input type="text" name="start" id="start">
+  <span>to</span>
+  <input type="text" name="end" id="end">
+</div> -->
+
+<div class="modal-body hidden">
+
+</div>
+  
+<form action="/test" method="POST">
+<div class="mobile">
+
+  <span class="notch"></span>
+
+  <div class="mobile__screen">
+
+    <div class="calendar">
+<div style="display: flex; flex-direction: row; justify-content: space-between;">
+  <a id="cleardates" role="link" aria-disabled="true" class="link-info" style="cursor: pointer;">clear dates</a>
+  <button type="submit" class="btn btn-primary  btn-sm" style="padding: 1; margin-bottom: 2px;">reserve</button>
+</div>
+      <div class="inputs">
+        <div>
+          
+          <input id="start" class="warning" type="text" placeholder="Start Date" name="start" onkeydown="return false;" autocomplete="off">   
+                 <!-- onkeydown="return false;" -->
+        </div>
+        <div>
+          <i class="fas fa-arrow-right"></i>
+        </div>
+        <div>
+          <input id="end" type="text" placeholder="End Date" name="end" onkeydown="return false;" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="cal__container">
+
+      </div>
+
+    </div>
+
+    
+  </div>
+
+</div>
+
+</form>
+
+
+<!-- <script>
+const elem = document.querySelector('input[name="foo"]');
+const datepicker = new Datepicker(elem); 
+
+</script> -->
+<!-- <script>
+  //get unavaildates (incl)
+  const elem = document.getElementById('foo');
+const rangepicker = new DateRangePicker(elem, {
+  autohide: true
+});
+
+const startElem = document.getElementById('start');
+const endElem = document.getElementById('end');
+
+startElem.addEventListener('changeDate', function(e) {
+  console.log('start', e.detail.date);
+});
+
+endElem.addEventListener('changeDate', function(e) {
+  console.log('end', e.detail.date);
+  console.log('end', e.detail);
+});
+</script> -->
+<script>
+
+</script>
+<script src="/javascripts/test.js"></script>

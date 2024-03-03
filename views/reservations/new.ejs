@@ -1,0 +1,47 @@
+
+
+<% layout('layouts/boilerplate') %>
+  <div class="row">
+    <h1 class="text-center">New Reservation</h1>
+    <div class="col-md-6 offset-md-3">
+      <form action="/campgrounds/<%=campground._id%>/reservations" method="POST" novalidate class="validated-form">
+        <div class="mb-3">
+          <label class="form-label" for="startDate">Start date</label>
+
+          <input class="form-control" type="date" id="startDate" name="reservation[startDate]" value="<%= (start !== '') ? start : '' %>" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+
+
+        <div class="mb-3">
+          <label class="form-label" for="endDate">End date</label>
+          <input class="form-control" type="date" id="endDate" name="reservation[endDate]" value="<%= (end !== '') ? end : '' %>" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="campgroundtitle">Campground</label>
+
+            <input class="form-control" type="text" id="campgroundtitle"  required
+              value="<%=campground.title %>" onkeydown="return false">
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            </div>
+
+            <input class="form-control" type="hidden" id="campground" name="reservation[campground]" required
+              value="<%=campground._id %>" >
+
+
+            <div class="mb-3">
+              <button class="btn btn-success">Reserve</button>
+            </div>
+      </form>
+<a href="/campgrounds">Search for campgrounds</a>
+<a href="/campgrounds/<%=campground._id%>">Go back</a>
+    </div>
+  </div>

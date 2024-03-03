@@ -1,0 +1,35 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark ">
+  <div class="container-fluid" >
+      <a class="navbar-brand" href="/">CampBnB</a>
+      <a class="navbar-brand ms-auto" href="/cart" id="cartlogo">
+
+
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+              <a class="nav-link" href="/">Home</a>
+              <a class="nav-link" href="/campgrounds?page=1&limit=4">Campgrounds</a>
+              <a class="nav-link" href="/campgrounds/new">New Campground</a>
+              <!-- <a class="nav-link disabled">Disabled</a> -->
+              <a class="nav-link" href="/campgrounds/recommendations">FYP</a>
+          </div>
+          <div class="navbar-nav ml-auto">
+            <%if(!currentUser) { %>
+            <a class="nav-link" href="/login">Login</a>
+            <a class="nav-link" href="/register">Register</a>
+
+            <% }else{ %>
+              <!-- 20240207 user link -->
+              <a class="nav-link" href="/user">User</a>
+              <div id="cart"></div>
+            <a class="nav-link" href="/logout">Logout</a>
+            <% } %>
+          </div>
+      </div>
+  </div>
+</nav>
+

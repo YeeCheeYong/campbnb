@@ -1,0 +1,257 @@
+/* @import url('https://fonts.googleapis.com/css?family=Karla&display=swap');
+
+* {
+  font-family: 'Karla', sans-serif;
+} */
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.calendar {
+  border-spacing: 1px;
+  padding: 5px;
+}
+
+.cal__container {
+  height: 550px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.cal__controls {
+  font-size: 22px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  display: flex;
+  margin-bottom: 2hide 0px;
+}
+
+.cal__controls span {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.selected {
+  /* background-color: #f99092 !important; */
+   background-color: #7bc9ee !important; 
+  color: #fff;
+}
+
+.selected__startEnd {
+  /* background-color: #FF5A5F !important; */
+  background-color: #4a70f8 !important;
+  color: #fff !important;
+}
+
+.disabled, .disabled2 {
+  text-decoration: line-through;
+  color: #e5e5e5 !important;
+  cursor: not-allowed !important;
+  /* i add */
+  pointer-events: none;
+}
+
+.disabled:hover {
+  background-color: #fff !important;
+}
+
+.month {
+  margin-top: 20px;
+}
+
+.month span {
+  font-size: 16px;
+}
+
+table {
+  border-collapse: collapse;
+  margin-top: 10px;
+  width: calc(100% - 1px);
+}
+
+tr:first-of-type td {
+  text-transform: uppercase;
+}
+
+th {
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #111 !important;
+  border: none !important;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+}
+
+td {
+  height: 35px;
+  border: 1px solid #ededed;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+}
+
+td:hover {
+  background-color: #ededed;
+  cursor: pointer;
+}
+
+select {
+  height: 35px;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+}
+
+.inputs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  border: 1px solid #ededed;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  /* me */
+  font-size: 15px;
+}
+
+.inputs div {
+  height: 40px;
+  border: none;
+  padding-left: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.inputs div:nth-of-type(1) {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.inputs div:nth-of-type(2) {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.inputs div:nth-of-type(3) {
+  grid-column-start: 4;
+  grid-column-end: 6;
+}
+
+.inputs div i {
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  padding: 0;
+}
+
+.inputs div input {
+  margin: auto;
+  position: relative;
+  width: 100%;
+  border: none;
+}
+
+.clear {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin-top: 10px;
+  background-color: #e5e5e5;
+  border-radius: 3px;
+  border: none;
+  display: block;
+  color: #000;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.more__months {
+  display: block;
+  text-align: center;
+  /* padding: 10px 15px; */
+  padding: 5px 5px;
+  border: 1px solid #ededed;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  /* border: 1px solid #FF5A5F; */
+  border: 1px solid #4a70f8;
+  /* color: #FF5A5F; */
+  color: #4a70f8;
+  transition: all 0.2s ease;
+  margin-bottom: 50px;
+}
+
+.more__months:hover {
+  /* background-color: #FF5A5F; */
+  background-color: #4a70f8;
+  color: #fff;
+}
+
+.circles td {
+  border: none !important;
+  border-radius: 50%;
+}
+
+body {
+  display: flex;
+}
+
+.mobile {
+  /* height: 600px; */
+  height: 620px;
+  width: 283px;
+  margin: auto;
+  padding: 6px 10px 10px;
+  /* border: 10px solid #5d5d5d; */
+  border: 5px solid #4a70f8;
+  position: relative;
+  /* border-radius: 35px; */
+  border-radius: 10px;
+}
+
+.mobile__screen {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* .notch {
+  width: 200px;
+  height: 25px;
+  display: block;
+  position: absolute;
+  left: 100px;
+  margin-left: -50px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  top: 0;
+  background-color: #5d5d5d;
+} */
+
+.color__container {
+  position: absolute;
+  top: 700px;
+  width: 150px;
+  display: flex;
+  left: calc(50% - 75px);
+}
+
+.shapes__container {
+  position: absolute;
+  top: 750px;
+  width: 150px;
+  display: flex;
+  left: calc(50% - 75px);
+}
+
+.shapes {
+  margin: auto;
+}
+
+.shapes ul {
+  padding: 0;
+  margin: 0;
+}

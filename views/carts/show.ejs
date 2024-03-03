@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %>
+
+<% if (currentUser && cart) { %>
+<div class="mb-3">
+  <% cart.storeItems.forEach(storeItem => { %>
+    <div class="card">
+    <div class="card-body">
+    <form id="checkout-form-<%= storeItem.name._id %>" action="/user/<%= storeItem.name._id %>?_method=DELETE" method="POST">
+      <div style="display: flex; flex-direction: row;justify-content: space-between;" >
+      <h5 class="card-title"><%= storeItem.name._id %> <%=storeItem.name.checkoutName %></h5>
+      <button type="submit" class="btn btn-outline-danger">delete</button>
+    </div>
+    </form>
+      <!-- <p>Quantity: <%= storeItem.quantity %></p> -->
+      <div class="card-text">Price: $<%= storeItem.price %></div>
+      <div class="card-text">Campground: <%= storeItem.name.campground.title %></div>
+<div class="card-text">Dates: <%=moment(storeItem.name.startDate).format("MMM Do YY")%> - <%=moment(storeItem.name.endDate).format("MMM Do YY")%></div>
+      
+
+  </div>
+</div>
+  <% }); %>
+</div>
+<% } %>
+
+
+  <!-- Hidden input field to send cart.storeItems to the /create-checkout-session endpoint -->
+  <% if (currentUser && cart && cart.storeItems.length > 0) { %>
+    <a href="/cart/create-checkout-session" class="btn btn-secondary btn-lg">Checkout</a>
+  <% } %>
+
