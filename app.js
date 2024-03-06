@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 //20240302
 const BASE_URL=process.env.NODE_ENV === "production"
-? process.env.API_URL
+? "https://campbnb.xyz"
 : "http://localhost:3000";
 
 
