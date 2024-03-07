@@ -521,9 +521,19 @@ const day=date.getUTCDate().toString().padStart(2, '0');
   console.log('mm/dd/yyyy: ',`${month}/${day}/${year}`)
   return `${month}/${day}/${year}`;
 }
+const isHost = async (req, res, next) => {
+  const campgrounds = await Campground.find({ author: req.user._id });
+  if (campgrounds.length === 0) { // Check if the array is empty
+    req.flash('error', 'You have no listings.');
+    return res.redirect('/campgrounds');
+  }
+  // res.hostedCampgrounds = campgrounds; // Uncomment this line if needed
+  res.send(campgrounds);
+
+};
 
 
 
 
-module.exports = { index, renderNewForm, createCampground, showCampround, renderEditForm, updateCampground, deleteCampground, search, searchAll,getAll, giveRecommendations,getAllRes };
+module.exports = { index, renderNewForm, createCampground, showCampround, renderEditForm, updateCampground, deleteCampground, search, searchAll,getAll, giveRecommendations,getAllRes,isHost };
 

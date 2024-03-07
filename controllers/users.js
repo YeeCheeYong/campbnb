@@ -2,6 +2,7 @@ const User = require('../models/user')
 const Reservation = require('../models/reservation')
 const Campground = require('../models/campground')
 const { default: mongoose } = require('mongoose')
+const reservation = require('../models/reservation')
 const renderRegister = (req, res) => {
   res.render('users/register')
 }
@@ -118,6 +119,93 @@ const deleteUser = async (req, res) => {
   req.flash('success', 'Successfully deleted user.  We are sad to see you go.  Please come back anytime.')
   res.redirect("/campgrounds");
 }
+const hostpgage = async (req, res) => {
+  try {
+    const userID = req.user._id;
+    const user = await User.findById(userID);
+    let campgrounds = res.hostedCampgrounds;
+    const currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    let begMonth=currentMonth-2;
+    let begYear;
+    if(begMonth<0)
+    { begMonth+=12;
+      begYear=currentYear-1
+    }
+    else begYear=currentYear;
+
+    let lastThreeMonthsAveOccupancy=[]
+for(let c of campgrounds)
+{
+
+      let lastThreeMonthsRevenue = [];
+      let lastThreeMonthsOccupancy=[];
+      let occupied=0;let total;
+      for (let i = 0; i < 3; i++) {
+        const startDate = new Date(begYear, begMonth, 1);
+        let daysInMonth = new Date(2019, begMonth, 0).getDate();
+        total=daysInMonth;
+        if (begMonth == 1 && begYear % 4 == 0) {
+          daysInMonth = daysInMonth + 1;
+        }
+        const endDate = new Date(begYear, begMonth, daysInMonth);
+        const revenue = await Reservation.find({
+          startDate: { $gte: startDate },
+          endDate: { $lte: endDate },
+          campground: c._id,
+          status: 'confirmed' // Assuming only confirmed reservations contribute to revenue
+        })
+          .then(reservations => {
+            return reservations.reduce((totalRevenue, reservation) => {
+              // Calculate the total revenue for the current month by summing the totalPrice of each reservation
+              return totalRevenue + reservation.totalPrice;
+            }, 0);
+          })
+          .catch(error => {
+            console.error('Error calculating revenue:', error);
+            return 0;
+          });
+
+          occupied=await Reservation.find({
+            startDate: { $gte: startDate },
+            endDate: { $lte: endDate },
+            campground: c._id,
+            status: 'confirmed' 
+          })
+          .then(reservations=>{
+            return reservations.reduce
+            ((totalOccupiedDays,reservation)=>{
+              return totalOccupiedDays+reservation.duration;
+            },0)
+          })
+          .catch(error => {
+            console.error('Error calculating occupancy:', error);
+            return 0;
+          });
+        lastThreeMonthsRevenue.push(revenue);
+        lastThreeMonthsOccupancy.push(occupied/total*100)
+        
+        begMonth += 1;
+          if(begMonth>=0)begYear+=1;
+      }
+      console.log('lastThreeMonthsRevenue: ', lastThreeMonthsRevenue);
+      c.lastThreeMonthsRevenue = lastThreeMonthsRevenue; 
+      c.lastThreeMonthsOccupancy=lastThreeMonthsOccupancy
+    
+    }
+    let temp=0;
+    campgrounds.map(c=>{
+      temp+=c.lastThreeMonthsAveOccupancy;
+    })
+    lastThreeMonthsAveOccupancy.push(temp/campgrounds.length)
+
+    res.render('users/host', { user, campgrounds,lastThreeMonthsAveOccupancy });
+  } catch (error) {
+    console.error('Error in host page:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
 
 
-module.exports = { renderRegister, register, renderLogin, login, logout, getUserData, redirectToUser, getFavs, postFavs,deleteUser }
+module.exports = { renderRegister, register, renderLogin, login, logout, getUserData, redirectToUser, getFavs, postFavs,deleteUser,hostpgage }

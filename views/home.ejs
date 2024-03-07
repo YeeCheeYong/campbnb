@@ -25,6 +25,7 @@
                     <% } else { %>
                       <a class="nav-link" href="/user">User</a>
                       <div id="cart"></div>
+                      <div id="host"></div>
                     <a class="nav-link" href="/logout">Logout</a>
                     <% } %>
                 </nav>
@@ -284,6 +285,7 @@ document.getElementById('searchBtn').addEventListener('click', function(event) {
           
           </script>
           <script src="../javascripts/makeCartVisible.js"></script>
+          <script src="../javascripts/makeHostVisible.js"></script>
           <script>
             document.getElementById('keyword').addEventListener('keypress',function(e){
               if(e.key==='Enter')

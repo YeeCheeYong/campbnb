@@ -58,7 +58,7 @@ const months = [
   "September",
   "October",
   "November",
-  "Decemeber"
+  "December"
 ];
 
 const disabledDays = [

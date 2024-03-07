@@ -39,7 +39,11 @@ router.get("/new", isLoggedIn, campgrounds.renderNewForm);
 router.get("/getAll",campgrounds.getAll)
 
 router.get('/recommendations',campgrounds.giveRecommendations)
+router.get("/hostExistsOrNot",isLoggedIn,catchAsync(campgrounds.isHost))
+
 router.get('/:id/getAllRes',campgrounds.getAllRes)
+
+
 
 router.route('/:id')
   .get(paginateReviews,catchAsync(campgrounds.showCampround))
@@ -53,5 +57,6 @@ router.get(
   "/:id/edit", isLoggedIn, isAuthor,
   catchAsync(campgrounds.renderEditForm)
 );
+
 
 module.exports = router

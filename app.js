@@ -198,6 +198,7 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   //20240219 
   // res.locals.paginatedSearchResults=res.paginatedSearchResults;
+  
   res.locals.cartid=res.cartid
   res.locals.moment=moment;
 

@@ -45,6 +45,15 @@ const isNotAuthor = async (req, res, next) => {
   }
   next();
 }
+const isHost = async (req, res, next) => {
+  const campgrounds = await Campground.find({ author: req.user._id });
+  if (!campgrounds || campgrounds.length === 0) {
+    req.flash('error', 'You have no listing.')
+    return res.redirect('/campgrounds')
+  }
+  res.hostedCampgrounds = campgrounds;
+  next();
+}
 //20240212
 const handlePreSaveError = async (err, req, res, next) => {
   const { id } = req.params;
@@ -95,7 +104,7 @@ const validateReview = (req, res, next) => {
 
 const validateReservation = (req, res, next) => {
   try {
-    console.log('now in validateReservation, req.body: ',req.body)
+    console.log('now in validateReservation, req.body: ', req.body)
     const { error } = reservationSchema.validate(req.body);
     if (error) {
       console.log(error);
@@ -181,51 +190,51 @@ const paginateCampgrounds = (model) => {
     }
   }
 }
-const paginateReviews= async (req, res, next) => {
+const paginateReviews = async (req, res, next) => {
   const campground = await Campground.findById(req.params.id).populate({
     path: 'reviews',
     populate: {
       path: 'author'
     }
   }).populate("author");
-    const reviews=campground.reviews
-    const page = parseInt(req.query.page)
-    const limit = parseInt(req.query.limit)
+  const reviews = campground.reviews
+  const page = parseInt(req.query.page)
+  const limit = parseInt(req.query.limit)
 
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
 
-    const results = {}
+  const results = {}
 
-    if (endIndex < reviews.length) {
-      results.next = {
-        page: page + 1,
-        limit: limit
-      }
-    }
-
-    if (startIndex > 0) {
-      results.previous = {
-        page: page - 1,
-        limit: limit
-      }
-    }
-    try {
-      if (startIndex || endIndex) {
-        results.results = reviews.slice(startIndex, endIndex);
-      }
-      else {
-        results.results = reviews
-      }
-      //results.results = reviews.slice(startIndex,endIndex)
-      res.paginatedResults = results
-      res.page = page;
-      res.limit = limit;
-      next()
-    } catch (e) {
-      res.status(500).json({ message: e.message })
+  if (endIndex < reviews.length) {
+    results.next = {
+      page: page + 1,
+      limit: limit
     }
   }
+
+  if (startIndex > 0) {
+    results.previous = {
+      page: page - 1,
+      limit: limit
+    }
+  }
+  try {
+    if (startIndex || endIndex) {
+      results.results = reviews.slice(startIndex, endIndex);
+    }
+    else {
+      results.results = reviews
+    }
+    //results.results = reviews.slice(startIndex,endIndex)
+    res.paginatedResults = results
+    res.page = page;
+    res.limit = limit;
+    next()
+  } catch (e) {
+    res.status(500).json({ message: e.message })
+  }
+}
 
 
 const setPaginatedSearchResults = (req, res, next) => {
@@ -239,7 +248,7 @@ const setPaginatedSearchResults = (req, res, next) => {
 
 const paginateSearchDocuments = async (req, res, next) => {
   console.log('inside paginateSearchDocuments, req.query:', req.query)//req.query is passed here
-  const { startDate, endDate, campgroundName,am } = req.query
+  const { startDate, endDate, campgroundName, am } = req.query
   const documents = res.paginatedSearchResults
   page = parseInt(req.query.page);
   limit = parseInt(req.query.limit);
@@ -286,9 +295,9 @@ const paginateSearchDocuments = async (req, res, next) => {
     console.log('inside paginateSearchDocuments, prevPage: ', prevPage)
 
     const nextPage = res.paginatedSearchResults.next ? res.paginatedSearchResults.next.page : null;
-    const allCamps=await Campground.find({})
+    const allCamps = await Campground.find({})
     console.log('inside paginateSearchDocuments, nextPage: ', nextPage)
-    res.render("campgrounds/index", { campgrounds, prevPage, nextPage, startDate, endDate, am, campgroundName,allCamps });
+    res.render("campgrounds/index", { campgrounds, prevPage, nextPage, startDate, endDate, am, campgroundName, allCamps });
     //res.redirect('/campgrounds')
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -297,4 +306,4 @@ const paginateSearchDocuments = async (req, res, next) => {
 };
 
 
-module.exports = { isLoggedIn, storeReturnTo, isAuthor, validateCampground, validateReview, validateReservation, isReviewAuthor, isNotAuthor, handlePreSaveError, paginateCampgrounds, validateSearchFields, setPaginatedSearchResults, paginateSearchDocuments,validateSearchDates,paginateReviews };
+module.exports = { isLoggedIn, storeReturnTo, isAuthor, validateCampground, validateReview, validateReservation, isReviewAuthor, isNotAuthor, handlePreSaveError, paginateCampgrounds, validateSearchFields, setPaginatedSearchResults, paginateSearchDocuments, validateSearchDates, paginateReviews,isHost };

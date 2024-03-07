@@ -53,11 +53,32 @@ const ReservationSchema = new Schema({
 
   // {
   //   methods: {
-  //     async getCheckoutName() {
-  //       await this.populate('campground');
-  //       const durationInDays = Math.ceil((this.endDate - this.startDate) / (1000 * 60 * 60 * 24));
-  //       let day=(durationInDays<=1)?'day':'days'
-  //       return `${this.campground.title} ${durationInDays} ${day}`
+  //     async getLastThreeMonthsData() {
+  //       const currentMonth = currentDate.getMonth();
+  //       const currentYear = currentDate.getFullYear();
+  //       const lastThreeMonthsRevenue = [];
+  //       for (let i = 0; i < 3; i++) {
+  //         const startDate = new Date(currentYear, currentMonth, 1);
+  //         const endDate = new Date(currentYear, currentMonth, 31);
+  //         const revenue = await this.model('Reservation')
+  //         .find({
+  //           startDate: { $gte: startDate },
+  //           endDate: { $lte: endDate },
+  //           status: 'confirmed' // Assuming only confirmed reservations contribute to revenue
+  //         })
+  //         .then(reservations => {
+  //           return reservations.reduce((totalRevenue, reservation) => {
+  //             // Calculate the total revenue for the current month by summing the totalPrice of each reservation
+  //             return totalRevenue + reservation.totalPrice;
+  //           }, 0);
+  //         })
+  //         .catch(error => {
+  //           console.error('Error calculating revenue:', error);
+  //           return 0;
+  //         });
+  //         lastThreeMonthsRevenue.push(revenue);
+  //       }
+  //       return lastThreeMonthsRevenue;
   //     },
 
   //   }
@@ -142,7 +163,7 @@ ReservationSchema.virtual('duration').get(function () {
   const durationInDays = Math.ceil((this.endDate - this.startDate) / (1000 * 60 * 60 * 24));
   return durationInDays;
 });
-ReservationSchema.virtual('checkoutName').get(function(){
+ReservationSchema.virtual('checkoutName').get(function () {
   const durationInDays = Math.ceil((this.endDate - this.startDate) / (1000 * 60 * 60 * 24));
   let day = (durationInDays <= 1) ? 'day' : 'days';
   let title = this.campground.title.length > 20 ? this.campground.title.substring(0, 20) + '...' : this.campground.title;

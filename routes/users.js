@@ -3,10 +3,10 @@ const router = express.Router()
 const catchAsync = require('../utils/catchAsync')
 const User = require('../models/user')
 const passport = require('passport')
-const { isLoggedIn, storeReturnTo } = require('../middleware.js')
+const { isLoggedIn, storeReturnTo,isHost } = require('../middleware.js')
 const users = require('../controllers/users')
 const carts = require('../controllers/carts')
-
+const campgrounds = require('../controllers/campgrounds')
 
 
 
@@ -29,5 +29,8 @@ router.get('/user/favourites',isLoggedIn,users.getFavs)
 router.post('/user/favourites',isLoggedIn,users.postFavs)
 router.delete('/user',isLoggedIn,
   catchAsync(users.deleteUser))
+
+router.get('/host',isLoggedIn,isHost,catchAsync(users.hostpgage))
+
 
 module.exports = router;
