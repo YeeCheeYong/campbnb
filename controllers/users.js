@@ -32,7 +32,7 @@ const login = (req, res) => {
   //20240223 to stop redirecting to url in fetch
   // const redirectUrl = res.locals.returnTo || '/campgrounds';
   let redirectUrl
-  if(res.locals.returnTo&&(res.locals.returnTo==='/cart/existsOrNot'||res.locals.returnTo==='/campgrounds/getAll'))
+  if(res.locals.returnTo&&(res.locals.returnTo==='/cart/existsOrNot'||res.locals.returnTo==='/campgrounds/getAll'||res.locals.returnTo==='/campgrounds/hostExistsOrNot'))
   {
     redirectUrl='/campgrounds'
   }
