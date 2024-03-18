@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Review = require("./review");
-const Schema = mongoose.Schema; //bcos we will reference mongoose.Schema a lot
+const Schema = mongoose.Schema; 
+//bcos we will reference mongoose.Schema a lot
 const opts = {
   toJSON: { virtuals: true }
 };

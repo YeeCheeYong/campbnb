@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== "production") {
   require('dotenv').config();
 }
 const BASE_URL=process.env.NODE_ENV === "production"
-? "https://campbnb.xyz"
+? "https://www.campbnb.xyz"
 : "http://localhost:3000";
 const moment = require('moment')
 
