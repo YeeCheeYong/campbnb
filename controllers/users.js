@@ -40,6 +40,7 @@ const login = (req, res) => {
   redirectUrl = res.locals.returnTo || '/campgrounds'
   //delete req.session.returnTo
   res.redirect(redirectUrl)
+  //res.status(200).json({ redirectUrl });
 }
 const logout = (req, res, next) => {
   req.logout(function (err) {

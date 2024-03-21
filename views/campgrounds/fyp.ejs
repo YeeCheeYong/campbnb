@@ -58,8 +58,12 @@
   <% } %>
   <% } %>
 
-  <% if(!currentUser||currentUser&&campsBasedOnFavOrRanking) { %>
-    <% if(campsBasedOnFavOrRanking){ %>
+
+
+
+    <% if(!currentUser||currentUser&&campsBasedOnFavOrRanking&&campsBasedOnFavOrRanking.length>0) { %>
+
+    <% if(campsBasedOnFavOrRanking&&campsBasedOnFavOrRanking.length>0){ %>
       <div class="container">
         <div class="row">
     <h2>Recommendations based on browsing history,  favorites, & ranking</h2>
@@ -104,7 +108,15 @@
     <% } %>
   </div>
 </div>
-  <% } %>
+  <% }else{%>
+    <div class="col-md-4 col-sm-6 pb-4">
+      <div class="card h-100">
+    <div class="card-body">
+      <p class="card-text">none at the moment</p>
+      </div>
+      </div>
+      </div>
+<% } %>
   <% } %>
 
 

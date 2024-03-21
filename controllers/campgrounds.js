@@ -5,11 +5,13 @@ const { deleteInS3 } = require('../s3');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const { assert } = require('joi');
 const knn = require('knear');
+// const {jest}=require('jest')
 
 //geocoder is a name u give to the client to access geocoding service
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN })
 //20240220
-const { searchDatesSchema } = require('../schemas')
+const { searchDatesSchema } = require('../schemas');
+const user = require('../models/user');
 
 //20240219 modify with pagination
 //const index = async (req, res) => {
@@ -413,7 +415,7 @@ const giveRecommendations = async (req, res) => {
   }
 
 
-  if(recommendedCampgrounds.length>0)
+  if(recommendedCampgrounds&&recommendedCampgrounds.length>0)
   {
     for(let r of recommendedCampgrounds)
     {
@@ -535,5 +537,7 @@ const isHost = async (req, res, next) => {
 
 
 
-module.exports = { index, renderNewForm, createCampground, showCampround, renderEditForm, updateCampground, deleteCampground, search, searchAll,getAll, giveRecommendations,getAllRes,isHost };
+module.exports = { index, renderNewForm, createCampground, showCampround, renderEditForm, updateCampground, deleteCampground, search, searchAll,getAll, giveRecommendations,getAllRes,isHost,
+}
+
 
