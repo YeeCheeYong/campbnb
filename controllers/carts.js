@@ -284,8 +284,8 @@ const handleCancel = async (req, res) => {
 }
 
 
- const signingsecret = "whsec_85a861dc28a19d88ff119575329224fd9cfc9a39b5cb04c16c5be8f11a68e845"
-//const signingsecret = "whsec_vWSKSwmsrEjGBavg0v3WKZZgDf74udEH"
+// const signingsecret = "whsec_85a861dc28a19d88ff119575329224fd9cfc9a39b5cb04c16c5be8f11a68e845"
+const signingsecret = "whsec_vWSKSwmsrEjGBavg0v3WKZZgDf74udEH"
 
 const handleWebhook = async (req, res, next) => {
   console.log('inside handleWebhook')
