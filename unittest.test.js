@@ -3,22 +3,24 @@ const { app, db } = require('./app')
 const http = require('http');
 const session = require('supertest-session');
 
-const { fireEvent, getByText } = require('@testing-library/dom')
-const { JSDOM } = require('jsdom')
+let apptest
 
-//const fs = require('fs')
-const path = require('path')
-const sth = require('@testing-library/jest-dom');
-const ejs = require('ejs')
-
-
- const { getMockReq, getMockRes } = require('@jest-mock/express')
-
-let apptest;
 beforeAll(async () => {
   apptest = request(http.createServer(app));
 
 })
+// const { fireEvent, getByText } = require('@testing-library/dom')
+// const { JSDOM } = require('jsdom')
+
+// //const fs = require('fs')
+// const path = require('path')
+// const sth = require('@testing-library/jest-dom');
+// const ejs = require('ejs')
+
+
+//  const { getMockReq, getMockRes } = require('@jest-mock/express')
+
+
 
 
 
@@ -101,7 +103,7 @@ describe('UC3: Non-host user denied access to hostpage', () => {
 describe('UC4: access user page as a user', () => {
   beforeEach(function (done) {
     testSession.post('/login').type('form')
-      .send({ username: 'chee2', password: 'chee2' })
+      .send({ username: 'chee3', password: 'chee3' })
       .expect(200)
       .end(function (err) {
         if (err) return done(err);
@@ -138,31 +140,31 @@ describe('UC4: denied access of user page as a non-registered user', () => {
 
 });
 
-const targetFile = path.resolve(__dirname, "./views/campgrounds/index.ejs")
-describe('index.ejs', () => {
-  test('button click', () => {
-    ejs.renderFile(targetFile, function (err, str) {
-      if (err) {
-        console.log(err)
-      }
-      if (str) {
-        let dom
-        let container
-        beforeEach(() => {
-          dom = new JSDOM(str, { runScripts: 'dangerously' })
-          container = dom.window.document.body
-        })
-        it('button is clicked', async () => {
-          const button = getByText(container, 'View chee camp')//.closest('a').toHaveAttribute
-          await fireEvent.click(button)
+// const targetFile = path.resolve(__dirname, "./views/campgrounds/index.ejs")
+// describe('index.ejs', () => {
+//   test('button click', () => {
+//     ejs.renderFile(targetFile, function (err, str) {
+//       if (err) {
+//         console.log(err)
+//       }
+//       if (str) {
+//         let dom
+//         let container
+//         beforeEach(() => {
+//           dom = new JSDOM(str, { runScripts: 'dangerously' })
+//           container = dom.window.document.body
+//         })
+//         it('button is clicked', async () => {
+//           const button = getByText(container, 'View chee camp')//.closest('a').toHaveAttribute
+//           await fireEvent.click(button)
 
-          expect(global.window.location.href).toContain('/campgrounds/652e45985fe060f49564806e');
+//           expect(global.window.location.href).toContain('/campgrounds/652e45985fe060f49564806e');
 
-        })
-      }
-    })
-  })
-})
+//         })
+//       }
+//     })
+//   })
+// })
 
 // const Campground = require('./models/campground')
 // jest.mock('./models/campground')

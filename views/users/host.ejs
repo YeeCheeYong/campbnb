@@ -126,6 +126,7 @@ canvas.setAttribute('id',`myChart-${i}`)
       datasets: [{
         label: 'RevPar (Revenue per Available Room)',
         data: campgrounds[i].lastThreeMonthsRevenue,
+        //data:[200,300,400],
         borderWidth: 1
       }]
     },
@@ -208,6 +209,7 @@ canvas.setAttribute('id',`myChart-${i}`)
       datasets: [{
         label: 'Occupancy rate (%)',
         data: campgrounds[i].lastThreeMonthsOccupancy,
+        //data:[200,300,400],
         borderWidth: 1
       }]
     },
@@ -272,12 +274,14 @@ type:'bar',
       datasets: [{
         label: 'Ave. Occupancy rate (%)',
         data: lastThreeMonthsAveOccupancy,
+        //data:[200,300,400],
         borderWidth: 1
       },{
         type:'line',
         
         label: 'Ave. Occupancy rate (%)',
         data: lastThreeMonthsAveOccupancy,
+        //data:[200,300,400]
 
 
       }]

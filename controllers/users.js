@@ -14,7 +14,7 @@ const register = async (req, res) => {
     const registedUser = await User.register(user, password)
     req.login(registedUser, err => {
       if (err) return next(err);
-      req.flash('success', 'Welcome to Yelp Camp')
+      req.flash('success', 'Welcome to CampBnB')
       res.redirect('/campgrounds')
     })
 
@@ -41,6 +41,7 @@ const login = (req, res) => {
   //delete req.session.returnTo
   res.redirect(redirectUrl)
   //res.status(200).json({ redirectUrl });
+
 }
 const logout = (req, res, next) => {
   req.logout(function (err) {

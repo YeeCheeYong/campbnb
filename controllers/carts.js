@@ -8,9 +8,8 @@ const stripe = require("stripe")('sk_test_51OjaHmBVYSFxDsBkA2j2kygEfuLaEotX9ayC7
 if (process.env.NODE_ENV !== "production") {
   require('dotenv').config();
 }
-// const BASE_URL=process.env.NODE_ENV === "production"
-// ? "https://www.campbnb.xyz"
-// : "http://localhost:3000";
+ //const BASE_URL=process.env.NODE_ENV === "production"? "https://www.campbnb.xyz"
+ //: "http://localhost:3000";
 const BASE_URL="https://www.campbnb.xyz"
 const moment = require('moment')
 
@@ -285,7 +284,9 @@ const handleCancel = async (req, res) => {
 }
 
 
-const signingsecret = "whsec_85a861dc28a19d88ff119575329224fd9cfc9a39b5cb04c16c5be8f11a68e845"
+ const signingsecret = "whsec_85a861dc28a19d88ff119575329224fd9cfc9a39b5cb04c16c5be8f11a68e845"
+//const signingsecret = "whsec_vWSKSwmsrEjGBavg0v3WKZZgDf74udEH"
+
 const handleWebhook = async (req, res, next) => {
   console.log('inside handleWebhook')
   const payload = req.body;
