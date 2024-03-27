@@ -6,7 +6,7 @@ const Review = require("../models/review.js");
 
 const ExpressError = require("../utils/ExpressError.js");
 const catchAsync = require("../utils/catchAsync.js");
-const { validateReview, isLoggedIn, isReviewAuthor } = require('../middleware.js')
+const { validateReview, isLoggedIn, isReviewAuthor,paginateReviews } = require('../middleware.js')
 const reviews = require('../controllers/reviews.js')
 
 router.post(

@@ -8,7 +8,7 @@ const stripe = require("stripe")('sk_test_51OjaHmBVYSFxDsBkA2j2kygEfuLaEotX9ayC7
 if (process.env.NODE_ENV !== "production") {
   require('dotenv').config();
 }
- //const BASE_URL=process.env.NODE_ENV === "production"? "https://www.campbnb.xyz"
+// const BASE_URL=process.env.NODE_ENV === "production"? "https://www.campbnb.xyz"
  //: "http://localhost:3000";
 const BASE_URL="https://www.campbnb.xyz"
 const moment = require('moment')
@@ -301,7 +301,7 @@ const handleWebhook = async (req, res, next) => {
     //res.json({ success: true })
   } catch (e) {
     console.log(e.message)
-    res.status(400).json({ success: false })
+    return res.status(400).json({ success: false })
     //return
   }
   // Handle the checkout.session.completed event
@@ -387,8 +387,9 @@ const handleWebhook = async (req, res, next) => {
 
 
   console.log('end of handleWebhook')
-  next()
+  //next()
   res.status(200).end()
+
 }
 
 const existsOrNot = async (req, res) => {
