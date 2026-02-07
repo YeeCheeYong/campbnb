@@ -35,4 +35,58 @@ max-width: 60vw;
   text-shadow: none;
 }
 
+#cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 12px 18px;
+  background-color: #111827; /* dark slate */
+  color: #ffffff;
+  font-size: 14px;
+
+  display: none;             /* hidden by default, JS will show it */
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+}
+
+#cookie-banner span {
+  max-width: 80%;
+  line-height: 1.4;
+}
+
+#cookie-banner button {
+  border: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  background-color: #e5e7eb;
+  color: #111827;
+  white-space: nowrap;
+}
+
+#cookie-banner button:hover {
+  filter: brightness(0.95);
+}
+
+@media (max-width: 600px) {
+  #cookie-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #cookie-banner span {
+    max-width: 100%;
+  }
+
+  #cookie-banner button {
+    align-self: flex-end;
+  }
+}
 
